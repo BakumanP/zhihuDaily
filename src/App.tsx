@@ -4,9 +4,11 @@ import './App.css'
 import * as services from './service'
 function App() {
   const [count, setCount] = useState(0)
+  const [daily,setDaily] = useState<LatestDto>()
+  getDailyNew()
   function getDailyNew(){
     services.getLatestDaily().then(res => {
-      console.info(res)
+      setDaily(res.data)
     })
   }
   return (
@@ -21,14 +23,25 @@ function App() {
       </div>
       <h1>Vite + React</h1>
       <div className="card">
-       
         <button onClick={() => getDailyNew() }>click to get Daily</button>
-     
       </div>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
-      
+      <ul>
+        {
+          daily?.stories.map(item => <li>
+            <img src={item.images?.[0]} className="logo" alt={item.image_hue}/>
+            <a href={item.url}>{item.title}</a>
+          </li>)
+        }
+        {
+          daily?.top_stories.map(item => <li>
+            <img src={item.image} className="logo" alt={item.image_hue}/>
+            <a href={item.url}>{item.title}</a>
+          </li>)
+        }
+      </ul>
     </div>
   )
 }
