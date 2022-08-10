@@ -2,8 +2,8 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
 import * as services from './service'
+import DailyCard from './components/dailyCard/dailyCard'
 function App() {
-  const [count, setCount] = useState(0)
   const [daily,setDaily] = useState<LatestDto>()
   getDailyNew()
   function getDailyNew(){
@@ -28,20 +28,14 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
-      <ul>
+      <div className='daily-box'>
         {
-          daily?.stories.map(item => <li>
-            <img src={item.images?.[0]} className="logo" alt={item.image_hue}/>
-            <a href={item.url}>{item.title}</a>
-          </li>)
+          daily?.stories.map(item => <DailyCard title={item.title} imgPath={item.images[0]}/>)
         }
         {
-          daily?.top_stories.map(item => <li>
-            <img src={item.image} className="logo" alt={item.image_hue}/>
-            <a href={item.url}>{item.title}</a>
-          </li>)
+          daily?.top_stories.map(item => <DailyCard title={item.title} imgPath={item.image}/>)
         }
-      </ul>
+      </div>
     </div>
   )
 }
